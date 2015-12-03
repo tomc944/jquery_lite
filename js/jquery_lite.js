@@ -30,6 +30,44 @@ if (typeof $l === 'undefined') {
     this.html("");
   };
 
+  Dom.prototype.append = function(obj) {
+    if (obj instanceof(window.DOMNodeCollection)) {
+      for (var i = 0; i < this.nodes.length; i++){
+        for (var j =0; j < obj.nodes.length; j++){
+          this.nodes[i].appendChild(obj.nodes[j]);
+        }
+      }
+    } else if (typeof obj === "string") {
+      this.nodes.forEach(function (node) {
+        node.innerHTML += obj;
+      });
+    } else {
+      this.nodes.forEach(function (node) {
+        node.innerHTML += obj.innerHTML;
+      });
+    }
+  };
+
+  Dom.prototype.attr = function(attributeName, value) {
+    if (value === 'undefined') {
+      for (var i = 0; i < this.nodes.length; i++) {
+        var result = this.nodes[i].attributes[attributeName];
+        if (result !== 'undefined') {
+          return result;
+        }
+      }
+    } else {
+      for (var i = 0; i < this.nodes.length; i++) {
+        var result = this.nodes[i].attributes[attributeName];
+        if (result !== 'undefined') {
+          this.nodes[i].attributes[attributeName] = value;
+          return;
+        }
+      }
+    }
+  };
+
+
 
 
 })();
