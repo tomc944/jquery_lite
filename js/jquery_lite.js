@@ -67,7 +67,33 @@ if (typeof $l === 'undefined') {
     }
   };
 
+  Dom.prototype.addClass = function (newClassName) {
+    this.nodes.forEach(function (node) {
+      node.className += " " + newClassName;
+    });
+  };
 
+  Dom.prototype.removeClass = function (removeClassName) {
+    this.nodes.forEach(function (node) {
+      node.className.replace(removeClassName, "");
+    });
+  };
 
+  Dom.prototype.children = function () {
+    var childNodes = [];
+    this.nodes.forEach( function(node) {
+      var childrenArr = [].slice.apply(node.children);
+      childNodes = childNodes.concat(childrenArr);
+    });
+    return new Dom(childNodes);
+  };
+
+  Dom.prototype.parent = function () {
+    // var parentNodes = [];
+    // this.nodes.forEach( function(parentNode) {
+    //   if (parentNode.)
+    // });
+    // return new Dom(parentNodes);
+  };
 
 })();
