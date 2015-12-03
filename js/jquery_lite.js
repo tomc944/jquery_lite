@@ -104,10 +104,10 @@ if (typeof $l === 'undefined') {
     return new Dom(parentNodes);
   };
 
-  Dom.prototype.find = function(selectors) {
+  Dom.prototype.find = function(selector) {
     var resultArr = [];
     this.nodes.forEach(function(node) {
-      var result = [].slice.apply(node.querySelectorAll(selectors));
+      var result = [].slice.apply(node.querySelectorAll(selector));
       resultArr = resultArr.concat(result);
     });
     return new Dom(resultArr);
@@ -116,6 +116,22 @@ if (typeof $l === 'undefined') {
   Dom.prototype.remove = function() {
     this.nodes.forEach(function(node) {
       node.remove();
+    });
+  };
+
+  Dom.prototype.on = function (e, selector, handler) {
+    var targetNodes = this.find(selector).nodes;
+
+    targetNodes.forEach(function(node) {
+      node.addEventListener(e, handler);
+    });
+  };
+
+  Dom.prototype.off = function (e, selector, handler) {
+    var targetNodes = this.find(selector).nodes;
+
+    targetNodes.forEach(function(node) {
+      node.removeEventListener(e, handler);
     });
   };
 
