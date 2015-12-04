@@ -121,7 +121,12 @@ if (typeof $l === 'undefined') {
 
   Dom.prototype.removeClass = function (removeClassName) {
     this.nodes.forEach(function (node) {
-      node.className.replace(removeClassName, "");
+      var classArr = node.className.split(" ");
+      var idx = classArr.indexOf(removeClassName);
+      if ( idx !== -1) {
+        classArr = classArr.slice(0, idx).concat(classArr.slice(idx+1));
+        node.className = classArr.join(" ");
+      }
     });
   };
 
@@ -175,9 +180,4 @@ if (typeof $l === 'undefined') {
       node.removeEventListener(e, handler);
     });
   };
-
-
-
-
-
 })();
