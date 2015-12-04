@@ -2,14 +2,52 @@ if (typeof $l === 'undefined') {
   window.$l = {};
 }
 (function() {
+  var onreadyCallbacks = [];
+
+  document.addEventListener("DOMContentLoaded", function(){
+    onreadyCallbacks.forEach(function(callback) {
+        callback();
+    });
+  });
+
   window.$l = function(el) {
-    if (el instanceof(HTMLElement)) {
+
+    if (el instanceof HTMLElement) {
       return new window.DOMNodeCollection([el]);
-    } else {
+    } else if (typeof el === 'string') {
       var elementList = document.querySelectorAll(el);
       var elementListArr = [].slice.apply(elementList);
       return new window.DOMNodeCollection(elementListArr);
+    } else {
+      onreadyCallbacks.push(el);
     }
+  };
+
+  window.$l.extend = function (target) {
+    var objs = ([].slice.apply(arguments)).slice(1);
+    for (var i = 0; i < objs.length; i++) {
+      for (var key in objs[i]) {
+        target[key] = (objs[i])[key];
+      }
+    }
+    return target;
+  };
+
+  window.$l.ajax = function (options) {
+    var defaults = {
+      method: "GET",
+      url: "https://www.google.com/webhp?",
+      data: "sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=jquery%20addclass%20duplicate",
+      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      success: function(){
+        console.log("Successful!");},
+      error: function(){
+        console.log("An error occured.");}
+    };
+    options = this.extend(defaults, options);
+    var xmlhttp = new window.XMLHttpRequest();
+    xmlhttp.open(options['method'], options['url'], true);
+    xmlhttp.send();
   };
 
   var Dom = window.DOMNodeCollection = function(arr) {
@@ -17,6 +55,8 @@ if (typeof $l === 'undefined') {
   };
 
   Dom.prototype.html = function (string) {
+    if (this.nodes.length === 0) { return; }
+
     if (arguments.length === 0){
       return this.nodes[0].innerHTML;
     } else {
@@ -43,7 +83,7 @@ if (typeof $l === 'undefined') {
       });
     } else {
       this.nodes.forEach(function (node) {
-        node.innerHTML += obj.innerHTML;
+        node.appendChild(obj);
       });
     }
   };
@@ -61,11 +101,12 @@ if (typeof $l === 'undefined') {
         var result = this.nodes[i].attributes[attributeName];
         if (result !== 'undefined') {
           this.nodes[i].attributes[attributeName] = value;
-          return;
         }
       }
     }
   };
+
+  // Potentially you can use Element.classList
 
   Dom.prototype.addClass = function (newClassName) {
     this.nodes.forEach(function (node) {
