@@ -1,7 +1,7 @@
 ##jQueryLite
 This is a lightweight framework built using DOMs native API. All of the basic jQuery methods were programmed in order to give the user control of the DOM.
 
-# Methods available in jQueryLite
+### Methods available in jQueryLite
 
 * `.$l() Allows matching for a set of elements in a document. Can select by function,
   string, or HTMLElement`
