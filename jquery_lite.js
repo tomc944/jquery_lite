@@ -3,7 +3,7 @@
 
   document.addEventListener("DOMContentLoaded", function(){
     _docReady = true;
-    onreadyCallbacks.forEach(function(callback) { callback(); });
+    _onReadyCallbacks.forEach(function(callback) { callback(); });
   });
 
   var registerDocCallback = function(callback) {
@@ -21,8 +21,8 @@
   DOMNodeCollection.prototype = {
     each: function(cb) {
       this.nodes.forEach(cb);
-    }
-    html:  function (html) {
+    },
+    html: function(html) {
       if (this.nodes.length === 0) { return; }
 
       if (arguments.length === 0){
@@ -64,7 +64,7 @@
           node.setAttribute(key, val);
         });
       } else {
-        return this.nodes.[0].getAttribute(key);
+        return this.nodes[0].getAttribute(key);
       }
     },
 
@@ -144,7 +144,7 @@
       case "string":
         var nodes = [].slice.call(document.querySelectorAll(argument), 0);
         returnValue = new DOMNodeCollection(nodes);
-      case 'object';
+      case 'object':
         if (argument instanceof HTMLElement) {
           returnValue = new DOMNodeCollection([argument]);
         }
@@ -154,9 +154,9 @@
   };
 
   root.$l.extend = function (target) {
-    var otherObjs = ([].slice.apply(arguments)).slice(1);
+    var otherObjs = Array.prototype.slice.call(arguments, 1);
     otherObjs.forEach(function(obj) {
-      for (var prop in obj) {
+      for(var prop in obj){
         if (obj.hasOwnProperty(prop)) {
           target[prop] = obj[prop]
         }
@@ -166,7 +166,7 @@
   };
 
   var toQueryString = function(obj) {
-    var result = '',
+    var result = '';
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) {
         result += prop + "=" + obj[prop] + '&';
@@ -177,7 +177,7 @@
   }
 
   root.$l.ajax = function (options) {
-    var myRequest = ne XMLHttpRequest();
+    var myRequest = new XMLHttpRequest();
     var defaults = {
       contentType: 'application/x-www-form-urlencode; charset=UTF-8',
       method: 'GET',
