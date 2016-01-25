@@ -3,7 +3,7 @@ This is a lightweight framework built using DOMs native API. All of the basic jQ
 
 # Methods available in jQueryLite
 
-* $l selector
+* $l selector `function test(arg) = { return true; }`
 * extend
 * ajax requests
 * append
