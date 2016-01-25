@@ -40,7 +40,7 @@
 
 
     append: function(obj) {
-      if (obj instanceof(root.DOMNodeCollection)) {
+      if (obj instanceof DOMNodeCollection) {
         for (var i = 0; i < this.nodes.length; i++){
           for (var j =0; j < obj.nodes.length; j++){
             this.nodes[i].appendChild(obj.nodes[j]);
@@ -108,7 +108,7 @@
       var foundNodes = [];
       this.each(function(node) {
         var nodeList = [].slice.apply(node.querySelectorAll(selector));
-        foundNodes = resultArr.concat(nodeList);
+        foundNodes = foundNodes.concat(nodeList);
       });
       return new DOMNodeCollection(foundNodes);
     },
