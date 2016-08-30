@@ -16,6 +16,6 @@ This is a lightweight framework built using DOMs native API. All of the basic jQ
 * `.on(event, handler)/.off (event, handler) Attach/remove an event handler function
   for an event to the selected elements`
 
-For more information about jQuery, you can visit the [documentation page] (https://api.jquery.com/)
+For more information about jQuery, you can visit the [documentation page] (https://api.jquery.com/).
 
 To see this framework in action, checkout my Snake game [here] (http://tomc944.github.io/Snake/).
